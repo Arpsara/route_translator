@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'actionpack', '>= 5.0.0.beta2', '< 5.1'
 
   spec.add_development_dependency 'appraisal', '~> 2.1'
+  spec.add_development_dependency 'byebug', '~> 8.2'
   spec.add_development_dependency 'coveralls', '~> 0.8.10'
   spec.add_development_dependency 'minitest', '>= 4.7.5', '< 6.0.0'
   spec.add_development_dependency 'rails', '>= 5.0.0.beta2', '< 5.1'
