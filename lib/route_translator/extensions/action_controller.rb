@@ -2,7 +2,7 @@ require 'action_controller'
 
 module ActionController
   class Base
-    around_filter :set_locale_from_url
+    around_action :set_locale_from_url
 
     def set_locale_from_url
       tmp_default_locale = RouteTranslator::Host.locale_from_host(request.host)
