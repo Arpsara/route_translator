@@ -31,10 +31,6 @@ module RouteTranslator
           translated_name
         end
       end
-
-      def host_locales_option?
-        RouteTranslator.config.host_locales.present?
-      end
     end
 
     module_function
