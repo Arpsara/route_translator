@@ -32,17 +32,8 @@ module RouteTranslator
         end
       end
 
-      def translate_conditions(conditions, translated_path)
-        translated_conditions = conditions.dup
-
-        translated_conditions[:path_info] = translated_path
-        translated_conditions[:parsed_path_info] = ActionDispatch::Journey::Parser.new.parse(translated_conditions[:path_info]) if conditions[:parsed_path_info]
-
-        if translated_conditions[:required_defaults] && !translated_conditions[:required_defaults].include?(RouteTranslator.locale_param_key)
-          translated_conditions[:required_defaults] << RouteTranslator.locale_param_key
-        end
-
-        translated_conditions
+      def host_locales_option?
+        RouteTranslator.config.host_locales.present?
       end
     end
 
