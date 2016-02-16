@@ -31,6 +31,19 @@ module RouteTranslator
           translated_name
         end
       end
+
+      def translate_conditions(conditions, translated_path)
+        translated_conditions = conditions.dup
+
+        translated_conditions[:path_info] = translated_path
+        translated_conditions[:parsed_path_info] = ActionDispatch::Journey::Parser.new.parse(translated_conditions[:path_info]) if conditions[:parsed_path_info]
+
+        if translated_conditions[:required_defaults] && !translated_conditions[:required_defaults].include?(RouteTranslator.locale_param_key)
+          translated_conditions[:required_defaults] << RouteTranslator.locale_param_key
+        end
+
+        translated_conditions
+      end
     end
 
     module_function
@@ -46,12 +59,11 @@ module RouteTranslator
           next
         end
 
-        new_conditions = translate_conditions(conditions, translated_path)
-
         new_defaults = defaults.merge(RouteTranslator.locale_param_key => locale.to_s.gsub('native_', ''))
         new_requirements = requirements.merge(RouteTranslator.locale_param_key => locale.to_s)
         new_route_name = translate_name(route_name, locale, route_set.named_routes.routes)
-        yield app, new_conditions, new_requirements, new_defaults, new_route_name, anchor
+
+        yield app, translated_conditions, new_requirements, new_defaults, new_route_name, anchor
       end
     end
 
